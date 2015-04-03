@@ -23,6 +23,7 @@ Channel::Channel(bool server, sockaddr_in saddr, sockaddr_in caddr, int portno):
 	servAddr(saddr),
 	cliAddr(caddr),
 	portNo(portno) {
+
 	if(isServer)
 		openChannel();
 	else
@@ -60,8 +61,10 @@ void Channel::openChannel() {
 	}
 
 	cout << "Connection successful" << endl;
+}
 
-	if( fcntl(socketAccept, F_SETFL, fcntl(socketAccept, F_GETFL, 0) | O_NONBLOCK) == -1) {
+void Channel::nonBlock(int &socket) {
+	if( fcntl(socket, F_SETFL, fcntl(socket, F_GETFL, 0) | O_NONBLOCK) == -1) {
 		cout << "Unable to make socket non-blocking!";
 		exit(1);
 	}
@@ -80,26 +83,21 @@ void Channel::connectChannel() {
 	}
 
 	cout << "Connection successful" << endl;
-
-	if( fcntl(socketConnect, F_SETFL, fcntl(socketConnect, F_GETFL, 0) | O_NONBLOCK) == -1) {
-		cout << "Unable to make socket non-blocking!";
-		exit(1);
-	}
 }
 
-void Channel::readFromChannel() {
-	bzero(channelBuffer, BUFSIZE);
+void Channel::readFromChannel (char buffer[]) {
+	bzero(buffer, BUFSIZE);
 	int *socket = 0;
 	if (isServer)
 		socket = &socketAccept;
 	else
 		socket = &socketConnect;
 
-	if (read(*socket, (void *)channelBuffer, BUFSIZE-1) < 0)
+	if (read(*socket, (void *)buffer, BUFSIZE-1) < 0)
 		cout << "ERROR reading from socket" << endl;
 }
 
-void Channel::writeToChannel(char buffer[]) {
+void Channel::writeToChannel (char buffer[]) {
 	int *socket = 0;
 	if (isServer)
 		socket = &socketAccept;
@@ -108,8 +106,4 @@ void Channel::writeToChannel(char buffer[]) {
 
 	if (write(*socket, (void *)buffer, BUFSIZE) < 0)
 		 cout << "ERROR writing to socket" << endl;
-}
-
-void Channel::channelManager() {
-
 }

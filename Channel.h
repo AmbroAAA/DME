@@ -15,25 +15,23 @@ const unsigned int BUFSIZE = 256;
 
 class Channel {
 
-	bool isServer;
-	int socketAccept;
-	int socketBind;
-	int socketConnect;
-	sockaddr_in servAddr;
-	sockaddr_in cliAddr;
-	int portNo;
+	bool isServer;			//< channel server object if this flag is set
+	int socketAccept;		//< socket file descriptor to accept connection at server
+	int socketBind;			//< socket file descriptor to bind socket to server
+	int socketConnect;		//< socket file descriptor to connect to server at client
+	sockaddr_in servAddr;	//< server address
+	sockaddr_in cliAddr;	//< client address
+	int portNo;				//< common port number on which both parties will make a socket connection
 
 	pthread_t channelThread;
-	char channelBuffer[BUFSIZE];
 
-	void openChannel();
-	void connectChannel();
-
+	void openChannel();		//< called by server
+	void connectChannel();	//< called by client
+	void nonBlock(int &); 	//< make a socket non-blocking
 public:
 	Channel(bool, sockaddr_in, sockaddr_in, int);
-	void readFromChannel();
+	void readFromChannel(char []);
 	void writeToChannel(char []);
-	void channelManager();
 	virtual ~Channel();
 };
 

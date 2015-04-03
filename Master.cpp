@@ -41,6 +41,8 @@ int main(int argc, char *argv[]) {
 
 	if (argc != 5) {
 		cout << "Invalid command line!" << endl;
+		cout << "Usage for server: ./<binary> <server IPv4> <client IPv4> <port No> 1" << endl;
+		cout << "Usage for client: ./<binary> <server IPv4> <client IPv4> <port No> 0" << endl;
 		exit(1);
 	}
 
@@ -58,7 +60,7 @@ int main(int argc, char *argv[]) {
 		ch.writeToChannel(buf);
 	}
 	else {
-		ch.readFromChannel();
+		ch.readFromChannel(buf);
 		cout << "Output : " << buf << endl;
 	}
 

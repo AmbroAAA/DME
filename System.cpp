@@ -85,6 +85,4 @@ void System::assignQuorums() {
 	for (set<uint>::iterator it = aliens.begin(); it != aliens.end(); it++)
 		cout << *it << ' ';
 	cout << '\n';
-
-
 }
