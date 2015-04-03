@@ -23,16 +23,18 @@ class Channel {
 	sockaddr_in cliAddr;	//< client address
 	int portNo;				//< common port number on which both parties will make a socket connection
 
-	pthread_t channelThread;
+	pthread_t chThread;		//< channel thread to sense incoming messages
 
 	void openChannel();		//< called by server
 	void connectChannel();	//< called by client
 	void nonBlock(int &); 	//< make a socket non-blocking
+
 public:
-	Channel(bool, sockaddr_in, sockaddr_in, int);
-	void readFromChannel(char []);
-	void writeToChannel(char []);
-	virtual ~Channel();
+
+	Channel(bool, sockaddr_in, sockaddr_in, int);	//< Constructor
+	void readFromChannel(char []);					//< read data from channel
+	void writeToChannel(char []);					//< write data to channel
+	virtual ~Channel();								//< destructor
 };
 
 #endif /* SRC_CHANNEL_H_ */
