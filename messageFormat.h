@@ -11,8 +11,14 @@
 #define UPDATE_HOLD_TOKEN 7
 #define UPDATE_LOSE_TOKEN 8
 
+/*=======================Communication Information*/
+#define SYSTEM_CONTROLLER_ID 66
+#define SYSTEM_CONTROLLER_IP "192.168.1.66"
 #define MAX_IP_LENGTH 16
 
+#define PORT1 3666
+#define PORT2 3766
+#define PORT3 3866
 /*=====================Message Packet========================*/
 struct Packet
 {
